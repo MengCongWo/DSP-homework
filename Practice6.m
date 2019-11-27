@@ -16,7 +16,7 @@ Rp = 0.3;            % ripple
 Rs = 45;             % damp
 Wp = 2*pi*fp;        % standard angle frequency
 Ws = 2*pi*fs;
-%n = 0:1/f:2;
+n = 0:1/f:2;
 [N,Wn] = buttord(Wp,Ws,Rp,Rs,'s');     % rank and passband
 % [b,a] = butter(N,Wn,'s');
 % fk=0:100000/2^17:100000;
@@ -32,6 +32,7 @@ Ws = 2*pi*fs;
 figure(1)
 subplot 211
 title('Magnitude response');
+hold on
 plot(w/pi,abs(X));
 xlabel('w/¦Ð');
 ylabel('|X(w)|');
@@ -39,6 +40,7 @@ axis([0,1,0,1]);
 hold on
 subplot 212
 title('Phase response');
+hold on
 plot(w/pi,angle(X));
 xlabel('w/¦Ð');
 ylabel('¦Õ');
@@ -46,10 +48,25 @@ axis([0,1,-3.3,3.3]);
 hold on
 
 %% Butterworth lowpass filter (bilinear transform method)
-[D,C] = bilinear(b,a,f);     % bilinear transform method
+[D,C] = bilinear(b,a,1);     % bilinear transform method
 [Hz,w1] = freqz(D,C);
 figure(2)
+subplot 211
+title('Magnitude response');
+hold on
 plot(w1/pi,abs(Hz));
+xlabel('w/¦Ð');
+ylabel('|X(w)|');
+hold on
+subplot 212
+title('Phase response');
+hold on
+plot(w/pi,angle(X));
+xlabel('w/¦Ð');
+ylabel('¦Õ');
+axis([0,1,-3.3,3.3]);
+hold on
+
 
 
 
